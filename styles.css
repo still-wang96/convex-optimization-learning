@@ -1,0 +1,188 @@
+:root {
+  color-scheme: light;
+  --ink: #171717;
+  --muted: #5d6470;
+  --line: #d9dee7;
+  --paper: #ffffff;
+  --soft: #f5f7fa;
+  --blue: #1358b8;
+  --orange: #b65c16;
+  --green: #218a4a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+  line-height: 1.62;
+}
+
+main {
+  width: min(1120px, calc(100% - 36px));
+  margin: 0 auto;
+  padding: 42px 0 64px;
+}
+
+.page-header {
+  max-width: 860px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 24px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--blue);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 900px;
+  margin-bottom: 14px;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.13;
+}
+
+h2 {
+  margin-bottom: 10px;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+}
+
+h3 {
+  margin-bottom: 8px;
+  font-size: 1.06rem;
+}
+
+p {
+  color: var(--muted);
+}
+
+.demo {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.78fr) minmax(420px, 1.35fr);
+  gap: 28px;
+  align-items: start;
+  padding: 18px 0 34px;
+  border-bottom: 1px solid var(--line);
+}
+
+.demo-copy {
+  position: sticky;
+  top: 20px;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-top: 22px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: var(--soft);
+}
+
+button {
+  min-height: 40px;
+  border: 1px solid #0f4591;
+  background: var(--blue);
+  color: #fff;
+  padding: 0 16px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+output {
+  min-width: 2ch;
+  font-weight: 700;
+  text-align: right;
+}
+
+.canvas-wrap {
+  border: 1px solid var(--line);
+  background: #fff;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.intuition,
+.formula {
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.idea-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.idea-grid article {
+  border: 1px solid var(--line);
+  background: var(--soft);
+  padding: 16px;
+}
+
+pre {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: #111827;
+  color: #f9fafb;
+  padding: 16px;
+}
+
+code {
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 860px) {
+  .demo,
+  .idea-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-copy {
+    position: static;
+  }
+
+  .controls {
+    grid-template-columns: 1fr;
+  }
+
+  output {
+    text-align: left;
+  }
+}
