@@ -172,10 +172,10 @@ function drawLabels() {
   context.fillText("f(x)=x²", toX(2.05), toY(4.8));
 
   context.fillStyle = "#b65c16";
-  context.fillText("affine supports", toX(-2.85), toY(9.25));
+  context.fillText("affine lower supports", toX(-2.85), toY(9.25));
 
   context.fillStyle = "#218a4a";
-  context.fillText("max of supports", toX(1.05), toY(1.9));
+  context.fillText("upper envelope: max of supports", toX(0.55), toY(1.9));
 
   context.fillStyle = "#333";
   context.font = "17px Georgia, serif";
