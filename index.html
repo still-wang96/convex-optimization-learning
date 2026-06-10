@@ -1,46 +1,98 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Convex Optimization Learning | Supporting Lines</title>
+    <title>Convex Optimization Learning | Upper Envelopes</title>
     <meta
       name="description"
-      content="Interactive convex optimization notes for building geometric intuition."
+      content="Interactive convex optimization notes on convex functions as upper envelopes of affine functions."
     />
     <link rel="stylesheet" href="styles.css" />
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]],
+        },
+        svg: {
+          fontCache: "global",
+        },
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <script defer src="script.js"></script>
   </head>
   <body>
     <main>
       <header class="page-header">
         <p class="eyebrow">Convex Optimization Learning</p>
-        <h1>凸函数为什么可以看作一族仿射函数的上包络？</h1>
-        <p>
-          这一页只讲一个几何直觉：凸函数可以由许多条从下方支撑它的仿射函数“托起来”。
-          拖动滑块或播放动画，观察有限条支撑线的最大值如何逼近原函数。
+        <h1>Convex Functions as Upper Envelopes of Affine Functions</h1>
+        <p class="lead">
+          The geometric idea is simple but powerful: a closed convex function can be rebuilt
+          from all affine functions that lie below it. These affine functions are its
+          supporting lines or supporting hyperplanes.
         </p>
       </header>
 
+      <section class="section" aria-labelledby="intuition-title">
+        <div class="section-heading">
+          <p class="section-kicker">01</p>
+          <h2 id="intuition-title">The Set Intuition</h2>
+        </div>
+        <div class="text-block">
+          <p>
+            Fix a convex function \(f\). Now collect every affine function
+            \(\ell(x)=a^\top x+b\) that never goes above \(f\):
+          </p>
+          <div class="math-card">
+            \[
+              \mathcal A_f
+              =
+              \left\{
+                (a,b): a^\top z+b \leq f(z)\ \text{for every } z
+              \right\}.
+            \]
+          </div>
+          <p>
+            This is a set of global affine lower bounds. At a particular point \(x\), each
+            pair \((a,b)\in\mathcal A_f\) gives one candidate value \(a^\top x+b\). Since all
+            candidates are below \(f(x)\), the best reconstruction is to take the largest one:
+          </p>
+          <div class="math-card highlight">
+            \[
+              f(x)=\sup_{(a,b)\in\mathcal A_f}\{a^\top x+b\}.
+            \]
+          </div>
+          <p>
+            So the function is the <strong>upper envelope</strong> of all its affine lower
+            supports. The word "upper" means the highest value among the supporting affine
+            functions, not a function sitting above \(f\).
+          </p>
+        </div>
+      </section>
+
       <section class="demo" aria-labelledby="demo-title">
         <div class="demo-copy">
-          <h2 id="demo-title">动态图像</h2>
+          <p class="section-kicker">02</p>
+          <h2 id="demo-title">Interactive Picture</h2>
           <p>
-            蓝色曲线是凸函数 \(f(x)=x^2\)。橙色直线是在不同点处的切线，
-            每一条都是仿射函数，并且都位于曲线下方。绿色折线是这些橙色直线的逐点最大值。
+            The blue curve is \(f(x)=x^2\). The orange lines are affine supports:
+            tangent lines that stay below the curve. The green curve is their pointwise
+            maximum.
           </p>
           <p>
-            当支撑线越来越密，绿色上包络会越来越贴近蓝色曲线；如果把所有切线都放进去，
-            它就正好等于原来的凸函数。
+            With finitely many supports, the green envelope is only an approximation. As the
+            supports become denser, the envelope rises toward the blue curve.
           </p>
 
           <div class="controls" aria-label="Animation controls">
             <button id="play-button" type="button">Play</button>
             <label>
-              支撑线数量
-              <input id="line-count" type="range" min="1" max="37" value="7" />
+              Number of supporting lines
+              <input id="line-count" type="range" min="1" max="61" value="9" />
             </label>
-            <output id="line-count-value">7</output>
+            <output id="line-count-value">9</output>
           </div>
         </div>
 
@@ -49,41 +101,145 @@
         </div>
       </section>
 
-      <section class="intuition" aria-labelledby="intuition-title">
-        <h2 id="intuition-title">要抓住的集合直觉</h2>
+      <section class="section" aria-labelledby="proof-title">
+        <div class="section-heading">
+          <p class="section-kicker">03</p>
+          <h2 id="proof-title">Algebraic Proof in One Dimension</h2>
+        </div>
+        <div class="text-block">
+          <p>
+            Take \(f(x)=x^2\). At point \(a\), the tangent line is
+          </p>
+          <div class="math-card">
+            \[
+              \ell_a(x)
+              =
+              f(a)+f'(a)(x-a)
+              =
+              a^2+2a(x-a)
+              =
+              2ax-a^2.
+            \]
+          </div>
+          <p>
+            First, this affine function is always below \(x^2\):
+          </p>
+          <div class="math-card">
+            \[
+              x^2-\ell_a(x)
+              =
+              x^2-(2ax-a^2)
+              =
+              (x-a)^2
+              \geq 0.
+            \]
+          </div>
+          <p>
+            Therefore \(\ell_a(x)\leq f(x)\) for every \(x\). Second, at \(a=x\), the tangent
+            reaches the curve:
+          </p>
+          <div class="math-card">
+            \[
+              \ell_x(x)=2x^2-x^2=x^2=f(x).
+            \]
+          </div>
+          <p>
+            Since every tangent lies below \(f\), their supremum cannot exceed \(f\). Since the
+            tangent at \(a=x\) reaches \(f(x)\), the supremum cannot be below \(f(x)\). Hence
+          </p>
+          <div class="math-card highlight">
+            \[
+              x^2=\sup_{a\in\mathbb R}\{2ax-a^2\}.
+            \]
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="general-title">
+        <div class="section-heading">
+          <p class="section-kicker">04</p>
+          <h2 id="general-title">General Convex Functions</h2>
+        </div>
+        <div class="text-block">
+          <p>
+            If \(f\) is differentiable and convex, the first-order convexity inequality says
+          </p>
+          <div class="math-card">
+            \[
+              f(x)\geq f(z)+\nabla f(z)^\top(x-z)
+              \quad \text{for all }x,z.
+            \]
+          </div>
+          <p>
+            For each fixed \(z\), the right-hand side is affine in \(x\). It is a global lower
+            support. Taking the supremum over all \(z\) gives back \(f\):
+          </p>
+          <div class="math-card highlight">
+            \[
+              f(x)
+              =
+              \sup_z
+              \left\{
+                f(z)+\nabla f(z)^\top(x-z)
+              \right\}.
+            \]
+          </div>
+          <p>
+            If \(f\) is not differentiable, replace \(\nabla f(z)\) with any subgradient
+            \(g\in\partial f(z)\):
+          </p>
+          <div class="math-card">
+            \[
+              f(x)
+              =
+              \sup_{z,\ g\in\partial f(z)}
+              \left\{
+                f(z)+g^\top(x-z)
+              \right\}.
+            \]
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="econ-title">
+        <div class="section-heading">
+          <p class="section-kicker">05</p>
+          <h2 id="econ-title">Why Economists Care</h2>
+        </div>
         <div class="idea-grid">
           <article>
-            <h3>1. 每条切线是一条“下界”</h3>
+            <h3>Prices as supporting hyperplanes</h3>
             <p>
-              对凸函数来说，在点 \(a\) 处的切线
-              \(\ell_a(x)=f(a)+g_a(x-a)\) 不会穿到函数上方。
+              In consumer theory and production theory, supporting hyperplanes often behave
+              like prices. A price vector supports an optimal bundle or efficient production
+              plan by separating what is feasible from what is preferred or profitable.
             </p>
           </article>
           <article>
-            <h3>2. 所有下界组成一个集合</h3>
+            <h3>Duality and value functions</h3>
             <p>
-              你可以把所有不超过 \(f\) 的仿射函数收集起来：
-              \(\{\ell:\ell(x)\le f(x)\}\)。
+              Many value functions are convex or concave after the right sign convention.
+              Their affine supports are the objects that appear in dual problems: Lagrange
+              multipliers, shadow prices, and supporting prices.
             </p>
           </article>
           <article>
-            <h3>3. 对每个 x 取最高的那条</h3>
+            <h3>Local information gives global bounds</h3>
             <p>
-              因为这些线都在下面，所以要恢复 \(f(x)\)，就取它们在该点的最大值。
+              Convexity turns a local derivative or subgradient into a global inequality.
+              This is why first-order conditions are so strong in convex optimization and why
+              they are useful in equilibrium and mechanism-design arguments.
             </p>
           </article>
         </div>
       </section>
 
-      <section class="formula" aria-labelledby="formula-title">
-        <h2 id="formula-title">一句话公式</h2>
+      <section class="section compact" aria-labelledby="memory-title">
+        <h2 id="memory-title">What to Remember</h2>
         <p>
-          如果 \(f\) 是闭凸函数，那么
-        </p>
-        <pre><code>f(x) = sup { a x + b : a t + b <= f(t), for all t }</code></pre>
-        <p>
-          高维时把 \(a x+b\) 换成 \(a^\top x+b\)。几何上，一维是支撑直线；
-          高维就是支撑超平面。
+          A convex function is the highest surface consistent with all of its affine lower
+          supports. Finite supports give a rough polyhedral approximation. All supports give
+          the exact function.
         </p>
       </section>
     </main>
