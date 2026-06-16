@@ -79,6 +79,28 @@ p {
   font-size: 1.12rem;
 }
 
+.chapter-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.chapter-nav a {
+  border: 1px solid var(--line);
+  background: var(--soft);
+  color: var(--ink);
+  padding: 8px 11px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.chapter-nav a[aria-current="page"] {
+  border-color: var(--blue);
+  background: #edf4ff;
+  color: var(--blue);
+}
+
 .section,
 .demo {
   border-bottom: 1px solid var(--line);
