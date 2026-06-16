@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Convex Optimization Learning | Supporting Hyperplanes</title>
+    <meta
+      name="description"
+      content="Interactive convex optimization notes on supporting hyperplanes and convex sets."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]],
+        },
+        svg: {
+          fontCache: "global",
+        },
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script defer src="supporting-hyperplanes.js"></script>
+  </head>
+  <body>
+    <main>
+      <header class="page-header">
+        <p class="eyebrow">Convex Optimization Learning</p>
+        <h1>Supporting Hyperplanes and Convex Sets</h1>
+        <p class="lead">
+          A supporting hyperplane is a global tangent wall: it touches a convex set at the
+          boundary, while the entire set stays on one side.
+        </p>
+        <nav class="chapter-nav" aria-label="Convex optimization chapters">
+          <a href="index.html">Upper envelopes</a>
+          <a href="supporting-hyperplanes.html" aria-current="page">Supporting hyperplanes</a>
+        </nav>
+      </header>
+
+      <section class="section" aria-labelledby="definition-title">
+        <div class="section-heading">
+          <p class="section-kicker">01</p>
+          <h2 id="definition-title">Definition</h2>
+        </div>
+        <div class="text-block">
+          <p>
+            Let \(C\subseteq \mathbb R^n\) be a convex set. A hyperplane
+            \(H=\{x:a^\top x=b\}\) supports \(C\) at a boundary point \(x_0\in C\) if
+          </p>
+          <div class="math-card">
+            \[
+              a^\top x\le b \quad \text{for every }x\in C,
+              \qquad
+              a^\top x_0=b.
+            \]
+          </div>
+          <p>
+            The first condition says the whole set is contained in one closed halfspace.
+            The second says the hyperplane actually touches the set. The vector \(a\) is the
+            normal vector: it points outward from the supporting wall.
+          </p>
+        </div>
+      </section>
+
+      <section class="demo" aria-labelledby="demo-title">
+        <div class="demo-copy">
+          <p class="section-kicker">02</p>
+          <h2 id="demo-title">Interactive Picture</h2>
+          <p>
+            The blue ellipse is a convex set. The orange line is a supporting hyperplane.
+            The pale orange side is the halfspace containing the whole set. Move the slider
+            to rotate the outward normal vector.
+          </p>
+          <p>
+            Notice that the line is not merely locally tangent. It is a global separator:
+            no point of the convex set crosses to the wrong side.
+          </p>
+          <div class="controls" aria-label="Supporting hyperplane controls">
+            <button id="animate-button" type="button">Play</button>
+            <label>
+              Normal direction
+              <input id="angle-slider" type="range" min="0" max="360" value="35" />
+            </label>
+            <output id="angle-value">35°</output>
+          </div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="hyperplane-canvas" width="980" height="620" aria-label="Supporting hyperplane animation"></canvas>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="ellipse-title">
+        <div class="section-heading">
+          <p class="section-kicker">03</p>
+          <h2 id="ellipse-title">Concrete Example: Unit Ball</h2>
+        </div>
+        <div class="text-block">
+          <p>
+            For the unit ball \(C=\{x\in\mathbb R^n:\|x\|\le 1\}\), take a boundary point
+            \(x_0\) with \(\|x_0\|=1\). The supporting hyperplane is
+          </p>
+          <div class="math-card highlight">
+            \[
+              x_0^\top x=1.
+            \]
+          </div>
+          <p>
+            Why does it support the ball? By Cauchy-Schwarz,
+          </p>
+          <div class="math-card">
+            \[
+              x_0^\top x\le \|x_0\|\,\|x\|\le 1
+              \quad \text{for every }x\in C.
+            \]
+          </div>
+          <p>
+            Equality holds at \(x=x_0\). So the hyperplane touches the ball at \(x_0\), and
+            the entire ball stays in the halfspace \(x_0^\top x\le 1\).
+          </p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="why-convex-title">
+        <div class="section-heading">
+          <p class="section-kicker">04</p>
+          <h2 id="why-convex-title">Why Convexity Matters</h2>
+        </div>
+        <div class="text-block">
+          <p>
+            For a nonconvex set, a line can touch one piece while another piece lies on the
+            other side. Convexity rules out that kind of folding. This is why supporting
+            hyperplanes are global objects, not just local tangencies.
+          </p>
+          <div class="math-card">
+            \[
+              \text{local boundary information}
+              \quad \Longrightarrow \quad
+              \text{global halfspace containment}.
+            \]
+          </div>
+          <p>
+            This is the same reason first-order conditions become so powerful in convex
+            optimization. A gradient or subgradient gives a global inequality, not just a
+            local approximation.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="function-title">
+        <div class="section-heading">
+          <p class="section-kicker">05</p>
+          <h2 id="function-title">Connection to Convex Functions</h2>
+        </div>
+        <div class="text-block">
+          <p>
+            A convex function \(f\) has a convex epigraph:
+          </p>
+          <div class="math-card">
+            \[
+              \operatorname{epi}(f)=\{(x,t):t\ge f(x)\}.
+            \]
+          </div>
+          <p>
+            Supporting hyperplanes of this convex set are exactly what produce supporting
+            affine functions below \(f\):
+          </p>
+          <div class="math-card highlight">
+            \[
+              f(y)\ge f(x)+g^\top(y-x).
+            \]
+          </div>
+          <p>
+            So the language of supporting hyperplanes for sets and the language of
+            subgradients for functions are two views of the same geometric idea.
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
