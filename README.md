@@ -19,3 +19,8 @@ The page explains:
 Open `index.html` locally, or use GitHub Pages:
 
 https://still-wang96.github.io/convex-optimization-learning/
+
+## Chapters
+
+- `index.html`: upper envelopes of affine functions.
+- `supporting-hyperplanes.html`: supporting hyperplanes and convex sets.
